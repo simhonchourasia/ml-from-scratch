@@ -1,4 +1,5 @@
 # http://www.code-spot.co.za/2009/10/08/15-steps-to-implemented-a-neural-net/
+import Activation
 
 # Implements a class for matrices
 class Matrix:
@@ -20,7 +21,7 @@ class Matrix:
             print()
 
 
-    # Finds the transpose of a matrix
+# Finds the transpose of a matrix
     def transpose(self):
         ret = [[0 for i in range(self.rows)] for j in range(self.cols)]
         for r in range(self.rows):
@@ -84,6 +85,29 @@ class Matrix:
     def map(self, f):
         return Matrix([[f(self.matrix[i][j]) for j in range(self.cols)] for i in range(self.rows)])
 
+
+    # Takes an output vector and converts to a class number
+    @staticmethod
+    def output_to_class(vect):
+        mx = max(vect)
+        return vect.index(mx)
+
+
+    # Takes a class number and converts to an output vector
+    @staticmethod
+    def class_to_output(num, mx):
+        ret = [0 for i in range(mx)]
+        ret[num] = 1
+        return ret
+
+
+# Feeds forward in the neural network
+# Takes input matrix, weight matrix, and bias matrix as input
+# Returns output matrix and a net matrix
+def feed_forward(inp, weights, bias, activation=lambda x: Activation.Functions.sigmoid(x)):
+    net = mult_matrix(weights, concat_horizontal(inputs, bias))
+    output = net.map(activation)
+    return [output, net]
 
 
 ## TESTING

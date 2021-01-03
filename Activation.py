@@ -1,6 +1,9 @@
 e = 2.7182818284590452353602874713527
 
-class ActivationFunctions:
+
+# Contains different activation functions and their derivatives
+# Contained as static functions
+class Functions:
     def __init__(self):
         pass
 
