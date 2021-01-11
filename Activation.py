@@ -46,6 +46,3 @@ class Functions:
         if x >= 0:
             return 1
         return a
-        
-    
-print(ActivationFunctions.tanh(1))

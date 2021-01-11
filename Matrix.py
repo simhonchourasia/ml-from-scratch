@@ -1,5 +1,6 @@
 # http://www.code-spot.co.za/2009/10/08/15-steps-to-implemented-a-neural-net/
 import Activation
+import random
 
 # Implements a class for matrices
 class Matrix:
@@ -34,6 +35,11 @@ class Matrix:
     def add(self, other):
         return Matrix([[self.matrix[i][j] + other.matrix[i][j] for j in range(self.cols)] for i in range(self.rows)])
 
+
+    # Subtracts two matrices
+    def subtract(self, other):
+        return Matrix([[self.matrix[i][j] - other.matrix[i][j] for j in range(self.cols)] for i in range(self.rows)])
+    
 
     # Multiplies matrix by a scalar
     def mult_scalar(self, k):
@@ -86,6 +92,14 @@ class Matrix:
         return Matrix([[f(self.matrix[i][j]) for j in range(self.cols)] for i in range(self.rows)])
 
 
+    # Finds the sum of all elements of a matrix
+    def sumAll(self):
+        ret = 0
+        for i in range(self.rows):
+            for j in range(self.cols):
+                ret += self.matrix[i][j]
+        return ret
+
     # Takes an output vector and converts to a class number
     @staticmethod
     def output_to_class(vect):
@@ -101,6 +115,17 @@ class Matrix:
         return ret
 
 
+    # Initializes a matrix with r rows and c cols with randomized weights
+    # Weights are in the interval [-max_weight, max_weight]
+    @staticmethod
+    def weight_initialize(r, c, max_weight):
+        ret = [[0 for j in range(c)] for i in range(r)]
+        for i in range(r):
+            for j in range(c):
+                ret[i][j] = random.uniform(-max_weight, max_weight)
+        return Matrix(ret)
+
+
 # Feeds forward in the neural network
 # Takes input matrix, weight matrix, and bias matrix as input
 # Returns output matrix and a net matrix
@@ -110,11 +135,3 @@ def feed_forward(inp, weights, bias, activation=lambda x: Activation.Functions.s
     return [output, net]
 
 
-## TESTING
-test1 = Matrix([[1, 2, 3], [4, 5, 60]])
-test1.print_matrix()
-test1.transpose().print_matrix()
-test2 = Matrix([1, 2, 3, 4]) # row vector
-test2.print_matrix()
-test2.transpose().print_matrix()
-test1.map(lambda x:2**x).print_matrix()
